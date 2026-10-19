@@ -24,6 +24,7 @@ window.entrelinhasAuthMode='signin';
 (()=>{const button=document.getElementById('switchAuth');button.addEventListener('click',()=>{window.entrelinhasAuthMode=window.entrelinhasAuthMode==='signin'?'signup':'signin';const signup=window.entrelinhasAuthMode==='signup';document.getElementById('authTitle').textContent=signup?'Crie sua conta':'Entre na sua conta';document.getElementById('authCopy').textContent=signup?'Crie sua conta para guardar e sincronizar suas leituras.':'Acesse suas metas e leituras de qualquer aparelho.';document.getElementById('authSubmit').textContent=signup?'Criar conta':'Entrar';button.textContent=signup?'Já tem conta? Entrar':'Ainda não tem conta? Criar conta';document.getElementById('authPassword').autocomplete=signup?'new-password':'current-password';document.getElementById('authMessage').textContent='';document.getElementById('authMessage').classList.remove('error')})})();
 </script>
 <script>
+(()=>{
 const SUPABASE_URL='https://wdqyzowpuagrnyilpfhi.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_kixr0cFOuAPjbo6CRoOn3g_h2x_ujCr';
 const supabase=window.supabase?.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY)||null;
@@ -52,6 +53,7 @@ document.querySelectorAll('[data-min]').forEach(b=>b.addEventListener('click',as
 const modal=$('modal');$('editGoal').onclick=()=>{$('goalInput').value=data.goal;modal.classList.add('open')};$('cancel').onclick=()=>modal.classList.remove('open');modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});$('saveGoal').onclick=async()=>{let n=Number($('goalInput').value);if(n>0&&n<=600&&currentUser){const previous=data.goal;data.goal=n;const {error}=await supabase.from('reading_preferences').upsert({user_id:currentUser.id,daily_goal_minutes:n},{onConflict:'user_id'});if(error){data.goal=previous;toast('Não foi possível salvar sua meta.');console.error(error);return}render();modal.classList.remove('open');toast('Sua meta foi atualizada.')}};
 $('clear').onclick=async()=>{if(!data.sessions.length){toast('Ainda não há leituras para apagar.');return}if(confirm('Apagar todo o seu histórico de leitura?')){const {error}=await supabase.from('reading_sessions').delete().eq('user_id',currentUser.id);if(error){toast('Não foi possível apagar o histórico.');console.error(error);return}data.sessions=[];render();toast('Histórico apagado.')}};
 
+})();
 </script></body></html>
 
 
