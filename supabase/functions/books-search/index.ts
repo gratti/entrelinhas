@@ -40,10 +40,9 @@ Deno.serve(async (request: Request) => {
   url.searchParams.set("langRestrict", "pt");
   url.searchParams.set("maxResults", "6");
   url.searchParams.set("printType", "books");
-  url.searchParams.set("key", apiKey);
 
   try {
-    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    const response = await fetch(url, { headers: { "x-goog-api-key": apiKey }, signal: AbortSignal.timeout(8000) });
     if (!response.ok) {
       console.error("Google Books request failed:", response.status);
       return json({ error: "Não foi possível consultar o Google Books agora." }, 502);
