@@ -5,6 +5,7 @@ create table public.reading_sessions (
   book text not null default 'Momento de leitura',
   minutes integer not null check (minutes between 1 and 600),
   pages integer not null default 0 check (pages >= 0),
+  note text check (note is null or char_length(note) <= 300),
   read_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
